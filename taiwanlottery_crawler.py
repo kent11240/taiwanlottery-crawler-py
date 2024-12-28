@@ -7,6 +7,10 @@ from prize_parser import PrizeParser
 
 
 class TaiwanLotteryCrawler:
+    MAX_SCRATCHES_SIZE = 40
+    SCRATCHES_URL_TEMPLATE = 'https://api.taiwanlottery.com/TLCAPIWeB/Instant/Result?ScratchName&Start_ListingDate&End_ListingDate&PageNum=1&PageSize={}&Type=1'
+    NEWS_URL_TEMPLATE = 'https://api.taiwanlottery.com/TLCAPIWeB/News/Detail/{}'
+
     def __init__(self, prize_parser: PrizeParser):
         self.__prize_parser = prize_parser
 
@@ -15,7 +19,7 @@ class TaiwanLotteryCrawler:
         return self._process_scratches(raw_scratches)
 
     def _get_raw_scratches(self):
-        url = 'https://api.taiwanlottery.com/TLCAPIWeB/Instant/Result?ScratchName&Start_ListingDate&End_ListingDate&PageNum=1&PageSize=40&Type=1'
+        url = self.SCRATCHES_URL_TEMPLATE.format(self.MAX_SCRATCHES_SIZE)
         response = requests.get(url)
         if response.status_code != 200:
             raise Exception(f"Failed to retrieve data: {response.status_code}")
@@ -53,7 +57,7 @@ class TaiwanLotteryCrawler:
 
     def _get_news_content(self, news_id, cache):
         if news_id not in cache:
-            news_url = f"https://api.taiwanlottery.com/TLCAPIWeB/News/Detail/{news_id}"
+            news_url = self.NEWS_URL_TEMPLATE.format(news_id)
             response = requests.get(news_url)
             if response.status_code != 200:
                 raise Exception(f"Failed to retrieve news details for {news_id}: {response.status_code}")
