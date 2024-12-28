@@ -10,12 +10,3 @@ class Scratch:
         self.bet = bet
         self.prizes = prizes
         self.total_amount = total_amount
-
-    def to_dict(self):
-        return {
-            "sid": self.sid,
-            "name": self.name,
-            "bet": self.bet,
-            "prizes": [prize.to_dict() for prize in self.prizes],
-            "total_amount": self.total_amount
-        }
