@@ -1,4 +1,5 @@
 import json
+
 from prize_parser import PrizeParser
 from taiwanlottery_crawler import TaiwanLotteryCrawler
 
