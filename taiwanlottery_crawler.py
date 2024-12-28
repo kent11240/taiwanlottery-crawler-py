@@ -7,7 +7,7 @@ from prize_parser import PrizeParser
 
 
 class TaiwanLotteryCrawler:
-    MAX_SCRATCHES_SIZE = 40
+    MAX_SCRATCHES_SIZE = 20
     SCRATCHES_URL_TEMPLATE = 'https://api.taiwanlottery.com/TLCAPIWeB/Instant/Result?ScratchName&Start_ListingDate&End_ListingDate&PageNum=1&PageSize={}&Type=1'
     NEWS_URL_TEMPLATE = 'https://api.taiwanlottery.com/TLCAPIWeB/News/Detail/{}'
 
@@ -29,7 +29,7 @@ class TaiwanLotteryCrawler:
         for item in data['content']['resultList']:
             raw_scratch = RawScratch(
                 sid=item['gameVol'],
-                name=item['scratchName'],
+                name=item['scratchName'].replace(',', ''),
                 bet=item['money'],
                 news_id=item['newsId']
             )
